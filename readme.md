@@ -195,3 +195,81 @@ class MyClass {
 // error 
 const me = new MyClass('32');
 ```
+
+## 72. interface
+- 객체의 형태를 설명한다 
+- 첫 글자는 대문자
+- 클래스 처럼 사용하지 않고 사용자 타입을 정의
+- 초기값을 가질 수 없다
+
+```
+interface Person {
+  name: string;
+  age: number;
+  greet(phrase: string): void;
+}
+
+let user: Person;
+
+user = {
+  name: 'Max',
+  age: 30,
+  greet(desc: string) {
+    console.log(desc + ' ' + this.name);
+  }
+};
+
+
+user.greet('Hello there - ');
+
+// interface 대신 타입으로 해도 오류가 나지 않는다.
+type Person = {
+  name: string;
+  age: number;
+  greet(phrase: string): void;
+}
+
+```
+
+interface 와 type 은 완전히 같지 않다.
+
+### 인터페이스와 type의 차이
+- 인터페이스는 객체의 구조를 설명하기 위해서만 사용한다.
+- 클래스가 인터페이스를 준수하는 약속처럼 사용 할 수 있다. 
+
+### 클래스에서 인터페이스 사용
+- implements 키워드 사용
+- 상속은 하나의 클래스만 상속 받지만 인터페이스는 ,(콤마)로 여러개를 받을 수 있다
+- 인터페이스는 구체적인 구현이 아닌 서로 다른 클래스간의 기능을 공유하기 위해 사용
+
+```
+interface Greetable {
+  name: string;
+  greet(phrase: string): void;
+}
+
+//                               , anotherImplement 처럼 여러개를 받을 수 있다
+class Person implements Greetable {
+  // 인터페이스 일때는 constructor에만 프로퍼티를 선언하거나 
+  // private 같은 키워드를 붙일 수 없다.
+  name: string; 
+  constructor(name: string) {
+    this.name = name;
+  }
+
+  greet(phrase: string): void {
+    console.log(phrase + ' ' + this.name);
+  }
+}
+
+
+let user: Greetable;
+
+user = {
+  name: 'Max',
+  // age: 30; // interface에 정의되지 않았으므로 에러 발생
+  greet(phrase: string) {
+    console.log(phrase + ' ' + this.name);
+  }
+};
+```

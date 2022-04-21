@@ -25,6 +25,9 @@ var InheritClass = /** @class */ (function (_super) {
     function InheritClass(id) {
         return _super.call(this, id) || this;
     }
+    InheritClass.prototype.describe = function () {
+        console.log(this.id);
+    };
     return InheritClass;
 }(MyAbClass));
 var inherit = new InheritClass('hello');
