@@ -48,9 +48,9 @@ const names: Array = [];
 // 해결법 2. generic
 // function merge<T, U>(objA: T, objB: U): T & U 
 // 인 인터섹션을 반환 한다.
-function merge<T, U>(objA: T, objB: U) {
-  return Object.assign(objA, objB);
-}
+// function merge<T, U>(objA: T, objB: U) {
+//   return Object.assign(objA, objB);
+// }
 
 // const mergedObj = merge({name: 'han'}, {age: 37});
 // const mergedObj2 = merge({name: 'han', hobbies: ['sports']}, {age: 37});
@@ -71,6 +71,35 @@ function merge<T, U>(objA: T, objB: U) {
 
 // typescript에게 구체적으로 어떤 타입을 작성해야 하는지 알려 줄 수 있다.
 // merge 함수 호출 시 T, U에 해당 하는 타입을 넣어준다
-const mergedObj = merge<{name: string}, {age: number}>({name: 'han'}, {age: 37});
+// const mergedObj = merge<{name: string}, {age: number}>({name: 'han'}, {age: 37});
+
+// notion: https://www.notion.so/generic-c3e271650710431ebf7694ba94492cab
+
+// 제약 조건 작업하기
+// function merge<T extends object, U extends object>(objA: T, objB: U) {
+//   return Object.assign(objA, objB);
+// }
+
+// 두번째 objB에 숫자만 전달해도 오류를 나타 내지 않는다.
+// merge에서 받는 타입에서 아무런 제약 조건을 걸지 않았기 때문에 어떻한 타입도 받을 수 있다.
+// 하지만 Object.assign에서는 객체를 받아야 하므로 제네릭에서 타입에 대한 제약 조건을 걸어야 한다.
+// const mergedObj = merge({name: 'max', hobbies: ['sports']}, 30);
+
+
+// 97. 다른 일반 함수
+
+interface Lengthy {
+  length: number;
+}
+
+function countAndDescription<T extends Lengthy>(element: T) {
+  const description = element.length === 1 ? 'Got 1 element.' : element.length > 1 ? `Got ${element.length} elements.` : 'Got no value.';
+  return [element, description];
+}
+
+console.log(countAndDescription('Hi there!'));
+console.log(countAndDescription(['sports', 'cookie']));
+console.log(countAndDescription([]));
+console.log(countAndDescription({length: 3}));
 
 // notion: https://www.notion.so/generic-c3e271650710431ebf7694ba94492cab
